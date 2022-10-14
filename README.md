@@ -1,6 +1,6 @@
 # Athena Plugin - Package Delivery
 
-A simple package delivery job plugin for the Athena Framework compatible with `3.9.0` of the [Athena Framework](https://athenaframework.com/).
+A simple package delivery job plugin for the Athena Framework compatible with `4.0.0` of the [Athena Framework](https://athenaframework.com/).
 
 ## Installation
 
@@ -16,12 +16,12 @@ cd src/core/plugins
 **SSH**
 
 ```
-git clone git@github.com:Stuyk/athena-plugin-job-package-delivery.git
+git clone git@github.com:Athena-Roleplay-Framework/athena-plugin-job-package-delivery.git
 ```
 
 **HTTPS**
 ```
-git clone https://github.com/Stuyk/athena-plugin-job-package-delivery
+git clone https://github.com/Athena-Roleplay-Framework/athena-plugin-job-package-delivery
 ```
 
 4. Start the Server

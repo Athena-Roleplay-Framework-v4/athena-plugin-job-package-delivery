@@ -1,15 +1,10 @@
 import * as alt from 'alt-server';
-import { ServerMarkerController } from '../../../../server/streamers/marker';
-import { ServerBlipController } from '../../../../server/systems/blip';
-import { InteractionController } from '../../../../server/systems/interaction';
-import { Job } from '../../../../server/systems/job';
-import { MARKER_TYPE } from '../../../../shared/enums/markerTypes';
-import { Objective } from '../../../../shared/interfaces/job';
-import { Vector3 } from '../../../../shared/interfaces/vector';
+import { MARKER_TYPE } from '@AthenaShared/enums/markerTypes';
+import { Objective } from '@AthenaShared/interfaces/job';
 import JOB_DATA from './data';
-import JobEnums from '../../../../shared/interfaces/job';
-import { CurrencyTypes } from '../../../../shared/enums/currency';
-import { Athena } from '../../../../server/api/athena';
+import JobEnums from '@AthenaShared/interfaces/job';
+import { CurrencyTypes } from '@AthenaShared/enums/currency';
+import { Athena } from '@AthenaServer/api/athena';
 
 const START_POINT = { x: 1245.790771484375, y: -3165.754150390625, z: 4.60198450088501 };
 const TOTAL_DROP_OFFS = 5;
@@ -21,7 +16,7 @@ export class MuleJob {
      * @memberof Job
      */
     static init() {
-        ServerBlipController.append({
+        Athena.controllers.blip.append({
             sprite: 616,
             color: 5,
             pos: START_POINT,
@@ -30,14 +25,14 @@ export class MuleJob {
             text: 'Simple Delivery',
         });
 
-        ServerMarkerController.append({
+        Athena.controllers.marker.append({
             pos: START_POINT,
             color: new alt.RGBA(255, 255, 255, 150),
             type: MARKER_TYPE.CYLINDER,
             scale: new alt.Vector3(1, 1, 1),
         });
 
-        InteractionController.add({
+        Athena.controllers.interaction.add({
             callback: MuleJob.begin,
             description: 'Deliver Packages',
             position: START_POINT,
@@ -180,7 +175,7 @@ export class MuleJob {
             },
         });
 
-        const job = new Job();
+        const job = new Athena.systems.job.instance();
         job.addVehicle(
             player,
             'mule',
@@ -197,10 +192,10 @@ export class MuleJob {
     /**
      * Creates and checks if a vehicle is in a spot and returns a spot if it is open.
      * @static
-     * @return {({ pos: Vector3; rot: Vector3 } | null)}
+     * @return {({ pos: alt.IVector3; rot: alt.IVector3 } | null)}
      * @memberof MuleJob
      */
-    static async getVehicleSpawnPoint(): Promise<{ pos: Vector3; rot: Vector3 } | null> {
+    static async getVehicleSpawnPoint(): Promise<{ pos: alt.IVector3; rot: alt.IVector3 } | null> {
         for (let i = 0; i < JOB_DATA.PARKING_POINTS.length; i++) {
             const point = JOB_DATA.PARKING_POINTS[i];
             const pointTest = new alt.ColshapeSphere(point.pos.x, point.pos.y, point.pos.z - 1, 2);
@@ -231,10 +226,10 @@ export class MuleJob {
     /**
      * Get random point from list of points.
      * @static
-     * @return {Array<Vector3>}
+     * @return {Array<alt.IVector3>}
      * @memberof Job
      */
-    static getRandomPoints(amount: number): Array<Vector3> {
+    static getRandomPoints(amount: number): Array<alt.IVector3> {
         const points = [];
 
         while (points.length < amount) {
